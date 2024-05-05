@@ -1,0 +1,157 @@
+@import 'base';
+
+// Variables: Global variables
+$color-blue: blue;
+$bg-color: #f0f0f0;
+
+section {
+    background-color: $bg-color;
+    h1 {
+        color: $color-blue;
+    }
+}
+
+main {
+    margin-bottom: 20px;
+    padding: 10px;
+
+    // Local variables
+    $color: red;
+
+    h1 {
+        color: $color;
+    }
+}
+
+
+.btn-submit {
+    background-color: $color-blue;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+    // & means the current selector (.btn-submit)
+    &:hover {
+        background-color: darken($color-blue, 10%);
+    }
+
+    // Nested Attributes
+    font: {
+        size: 16px;
+        weight: bold;
+    }
+}
+
+#main {
+    width: 300px;
+    @media only screen and (max-width: 600px){
+        width: 200px;
+    }
+}
+
+// Extend
+.btn-cancel {
+    @extend .btn-submit;
+    background-color: red;
+}
+
+// Mixin
+@mixin flex($direction: row, $justify: center, $align: center) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+.flex-container {
+    @include flex(column, flex-start, center);   
+}
+
+@mixin center($prop, $val) {
+    margin: 0 auto;
+    #{$prop}: $val;
+}
+
+.box1 {
+    @include center(width, 50%);
+}
+
+.box2 {
+    @include center(height, 50%);
+}
+
+// Placeholder
+%placeholder {
+    color: red;
+}
+
+input[type="text"] {
+    @extend %placeholder;
+    background-color: $bg-color;
+}
+
+input[type="password"] {
+    @extend %placeholder;
+}
+
+// Function
+@function calculate($val1, $val2) {
+    @return $val1 + $val2;
+}
+
+#main {
+    width: calculate(100px, 50px);
+}
+
+// If-Else
+$theme: dark;
+
+body {
+    @if $theme == dark {
+        background-color: black;
+        color: white;
+    } @else {
+        background-color: white;
+        color: black;
+    }
+    margin: 0;
+}
+
+// For Loop
+$total: 2;
+@for $i from 1 through $total {
+    .box#{$i} {
+        width: 100px * $i;
+        height: 100px * $i;
+        background-color: $color-blue;
+        margin-bottom: 10px;
+    }
+}
+
+// While
+$i: 3;
+@while $i > 0 {
+    .wbox#{$i} {
+        width: 100px * $i;
+        height: 100px * $i;
+        background-color: $color-blue;
+        margin-bottom: 10px;
+    }
+    $i: $i - 1;
+}
+
+// Each
+$val: (normal, bold, 10px), (emphasis, bold, 15px);
+@each $name, $style, $size in $val {
+  .#{$name} {
+      font-weight: $style;
+      size: $size;
+   }
+}
+
+// Import from base
+.btn-check {
+    margin-top: $margin-top;
+}
